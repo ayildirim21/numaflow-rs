@@ -26,10 +26,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
+      - name: Install protobuf compiler
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -42,4 +40,3 @@ jobs:
           password: ${{ secrets.NUMAIO_PASSWORD }}
       - name: Build, tag, and push images
         run: ./hack/update_examples.sh --build-push-example ${{ matrix.dockerfile_paths }}
-
